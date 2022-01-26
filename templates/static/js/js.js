@@ -128,12 +128,12 @@ function render_current_month_and_year(url) {
     })
 }
 
-function render_new_revenues_row() {
-    var revenues_row = document.getElementById("revenues_row")
-
-    const lista = [1, 2, 3, 4, 5]
-
-    for (index in lista) {
-        revenues_row.
-    }
-}
+// function render_new_revenues_row() {
+//     var revenues_row = document.getElementById("revenues_row")
+//
+//     const lista = [1, 2, 3, 4, 5]
+//
+//     for (index in lista) {
+//         revenues_row.
+//     }
+// }

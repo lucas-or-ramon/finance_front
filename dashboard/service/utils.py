@@ -60,6 +60,7 @@ def organize_data(data, labels, months):
 
 
 def get_total_current_month(content_name):
+    print("oi")
     now = datetime.datetime.now()
     params = {'last': f'{now.month}{now.year}', 'now': f'{now.month}{now.year}'}
 
@@ -68,8 +69,10 @@ def get_total_current_month(content_name):
     if content is None:
         return 0
 
+    print(content)
+
     total_month = 0
-    for record in content["records"]:
+    for record in content:
         total_month += record["value"]
 
     return total_month
@@ -79,12 +82,10 @@ def get_five_higher(content_name):
     now = datetime.datetime.now()
     params = {'last': f'{now.month}{now.year}', 'now': f'{now.month}{now.year}'}
 
-    content = backend.get_contents(content_name, params)
+    records = backend.get_contents(content_name, params)
 
-    if content is None:
+    if records is None:
         return [[], []]
-
-    records = content["records"]
 
     records_sorted = sorted(records, key=lambda x: x["value"], reverse=True)
 

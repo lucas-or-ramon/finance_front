@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .service import utils
 
-EXPENDITURE = "expenditure"
-REVENUES = "revenues"
+EXPENDITURE = "despesas"
+REVENUES = "receitas"
 
 
 def dashboard(request):

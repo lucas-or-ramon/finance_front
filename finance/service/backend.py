@@ -1,6 +1,6 @@
 import requests
 
-URL_BACKEND = "https://demo1860037.mockable.io/"
+URL_BACKEND = "http://localhost:8077/"
 
 
 def get_contents(content_name, params):
