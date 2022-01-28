@@ -1,35 +1,17 @@
 
-function render_current_balance(url){
+function render_summary_current_month(url) {
     fetch(url, {
         method: 'get'
-    }).then(function(result){
+    }).then(function (result) {
         return result.json()
-    }).then(function(data){
-        document.getElementById('current_balance_html').innerHTML = data.total
+    }).then(function (data) {
+        document.getElementById('total_revenues').innerHTML = data.totalRevenue
+        document.getElementById('total_expenditure').innerHTML = data.totalExpenditure
+        document.getElementById('current_balance_html').innerHTML = data.balance
 
-        if (data.total > 0) {
+        if (data.balance > 0) {
             document.getElementById('icon_balance').style.color = '#69BDCB'
         }
-    })
-}
-
-function render_total_expenditure_current_month(url) {
-    fetch(url, {
-        method: 'get'
-    }).then(function (result) {
-        return result.json()
-    }).then(function (data) {
-        document.getElementById('total_expenditure').innerHTML = data.total
-    })
-}
-
-function render_total_revenues_current_month(url) {
-    fetch(url, {
-        method: 'get'
-    }).then(function (result) {
-        return result.json()
-    }).then(function (data) {
-        document.getElementById('total_revenues').innerHTML = data.total
     })
 }
 

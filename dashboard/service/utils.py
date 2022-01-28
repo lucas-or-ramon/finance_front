@@ -10,26 +10,26 @@ def get_total_last_twelve_months(content_name):
     last = now - relativedelta(months=11)
 
     params = {'last': f'{last.month}{last.year}', 'now': f'{now.month}{now.year}'}
-    contents = backend.get_contents(content_name, params)
+    registries = backend.get_contents(content_name)
 
-    contents_sorted = sorted(contents, key=lambda x: datetime.datetime.strptime(x["date"], "%m/%Y"))
+    registries_sorted = sorted(registries, key=lambda x: datetime.datetime.strptime(x["date"], "%Y-%m-%d"))
 
     months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
     labels = []
     data = []
 
-    for content in contents_sorted:
-        date = datetime.datetime.strptime(content["date"], "%m/%Y")
+    total_month = 0
+    for registry in registries_sorted:
+        date = datetime.datetime.strptime(registry["date"], "%Y-%m-%d")
         labels.append(months[date.month - 1])
 
-        total_month = 0
-        for records in content["records"]:
-            total_month += records["value"]
+        total_month += registry["value"]
         data.append(total_month)
 
-    if len(labels) < 12:
-        return organize_data(data, labels, months)
-
+    # if len(labels) < 12:
+    #     return organize_data(data, labels, months)
+    print(data)
+    print(labels)
     return [data, labels]
 
 
@@ -59,30 +59,20 @@ def organize_data(data, labels, months):
     return [data, labels]
 
 
-def get_total_current_month(content_name):
-    print("oi")
+def get_summary_current_month(content_name):
     now = datetime.datetime.now()
-    params = {'last': f'{now.month}{now.year}', 'now': f'{now.month}{now.year}'}
-
-    content = backend.get_contents(content_name, params)
-
-    if content is None:
+    summary = backend.get_total(f'{content_name}/{now.year}/{now.month}')
+    print(summary)
+    if summary is None:
         return 0
 
-    print(content)
-
-    total_month = 0
-    for record in content:
-        total_month += record["value"]
-
-    return total_month
+    return summary
 
 
 def get_five_higher(content_name):
     now = datetime.datetime.now()
-    params = {'last': f'{now.month}{now.year}', 'now': f'{now.month}{now.year}'}
 
-    records = backend.get_contents(content_name, params)
+    records = backend.get_contents(f'{content_name}/{now.year}/{now.month}')
 
     if records is None:
         return [[], []]

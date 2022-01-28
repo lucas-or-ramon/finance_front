@@ -114,12 +114,10 @@
     <script>
 
         window.onload = function (event) {
-            render_current_balance('{% url "current_balance_url" %}')
             render_five_higher_revenues('{% url "five_higher_revenues_url" %}')
             render_five_higher_expenditures('{% url "five_higher_expenditures_url" %}')
             render_total_last_twelve_months('{% url "total_last_twelve_months_url" %}')
-            render_total_revenues_current_month('{% url "total_revenues_current_month_url" %}')
-            render_total_expenditure_current_month('{% url "total_expenditure_current_month_url" %}')
+            render_summary_current_month('{% url "summary_current_month_url" %}')
             render_current_month_and_year('{% url "years_and_month_to_select_url" %}')
 
         }

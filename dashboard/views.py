@@ -4,30 +4,22 @@ from .service import utils
 
 EXPENDITURE = "despesas"
 REVENUES = "receitas"
+SUMMARY = "resumo"
 
 
 def dashboard(request):
     return render(request, 'dashboard.html')
 
 
-def current_balance(request):
-    revenues = utils.get_total_current_month(REVENUES)
-    expenditure = utils.get_total_current_month(EXPENDITURE)
-    return JsonResponse({"total": revenues - expenditure})
-
-
-def total_expenditure_current_month(request):
-    return JsonResponse({"total": utils.get_total_current_month(EXPENDITURE)})
+def summary_current_month_url(request):
+    summary = utils.get_summary_current_month(SUMMARY)
+    return JsonResponse(summary)
 
 
 def total_last_twelve_months(request):
-    revenues = utils.get_total_last_twelve_months(REVENUES)
     expenditure = utils.get_total_last_twelve_months(EXPENDITURE)
+    revenues = utils.get_total_last_twelve_months(REVENUES)
     return JsonResponse({"revenues": revenues[0], "expenditure": expenditure[0], "labels": revenues[1]})
-
-
-def total_revenues_current_month(request):
-    return JsonResponse({"total": utils.get_total_current_month(REVENUES)})
 
 
 def five_higher_expenditures(request):
