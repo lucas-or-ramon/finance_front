@@ -1,72 +1,48 @@
 import datetime
 
-from dateutil.relativedelta import relativedelta
-
 from finance.service import backend
 
 
-def get_total_last_twelve_months(content_name):
+def get_summary_current_month(path):
     now = datetime.datetime.now()
-    last = now - relativedelta(months=11)
-
-    params = {'last': f'{last.month}{last.year}', 'now': f'{now.month}{now.year}'}
-    registries = backend.get_contents(content_name)
-
-    registries_sorted = sorted(registries, key=lambda x: datetime.datetime.strptime(x["date"], "%Y-%m-%d"))
-
-    months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
-    labels = []
-    data = []
-
-    total_month = 0
-    for registry in registries_sorted:
-        date = datetime.datetime.strptime(registry["date"], "%Y-%m-%d")
-        labels.append(months[date.month - 1])
-
-        total_month += registry["value"]
-        data.append(total_month)
-
-    # if len(labels) < 12:
-    #     return organize_data(data, labels, months)
-    print(data)
-    print(labels)
-    return [data, labels]
-
-
-def organize_data(data, labels, months):
-    months.reverse()
-    labels.reverse()
-    data.reverse()
-
-    start = months.index(labels[0])
-
-    for i in range(12):
-        if start > 11:
-            start = 0
-
-        if i < len(labels):
-            if months[start] != labels[i]:
-                labels.insert(i, months[start])
-                data.insert(i, 0)
-        else:
-            labels.append(months[start])
-            data.append(0)
-        start += 1
-
-    labels.reverse()
-    data.reverse()
-
-    return [data, labels]
-
-
-def get_summary_current_month(content_name):
-    now = datetime.datetime.now()
-    summary = backend.get_total(f'{content_name}/{now.year}/{now.month}')
-    print(summary)
+    summary = backend.get_total(f'{path}/{now.year}/{now.month}')
     if summary is None:
         return 0
 
+    summary["categorySummaries"] = extract_categories_summary(summary["categorySummaries"])
+
     return summary
+
+
+def extract_categories_summary(category_summaries):
+    category_summaries_sorted = sorted(category_summaries, key=lambda x: x["total"], reverse=True)
+    categories = []
+    totals = []
+    for category_summary in category_summaries_sorted:
+        categories.append(category_summary["category"])
+        totals.append(category_summary["total"])
+
+    return {"categories": categories, "totals": totals}
+
+
+def get_summary_last_twelve_months(path):
+    summary = backend.get_contents(f'{path}/lastyear')
+
+    monthly_summaries = sorted(summary["monthlySummaries"],
+                               key=lambda x: datetime.datetime.strptime(x["date"], "%Y-%m-%d"))
+    months = []
+    total_revenue = []
+    total_expenditure = []
+
+    for monthly_summary in monthly_summaries:
+        months.append(datetime.datetime.strptime(monthly_summary["date"], "%Y-%m-%d").strftime("%b"))
+        total_revenue.append(monthly_summary["totalRevenue"])
+        total_expenditure.append(monthly_summary["totalExpenditure"])
+
+    return {"labels": months,
+            "revenue": total_revenue,
+            "expenditure": total_expenditure,
+            "categorySummaries": extract_categories_summary(summary["annualCategoriesSummary"])}
 
 
 def get_five_higher(content_name):
@@ -86,7 +62,7 @@ def get_five_higher(content_name):
     labels = []
     for record in records_sorted:
         data.append(record["value"])
-        labels.append(record["description"])
+        labels.append(str.upper(record["description"]))
 
     return [data, labels]
 

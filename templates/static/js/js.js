@@ -1,4 +1,3 @@
-
 function render_summary_current_month(url) {
     fetch(url, {
         method: 'get'
@@ -12,23 +11,45 @@ function render_summary_current_month(url) {
         if (data.balance > 0) {
             document.getElementById('icon_balance').style.color = '#69BDCB'
         }
+
+        const ctx = document.getElementById('monthly_category_summary').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.categorySummaries.categories,
+                datasets: [{
+                    data: data.categorySummaries.totals,
+                    backgroundColor: ['#cb1ea8', '#d034b0', '#d54ab9', '#da61c2', '#df78ca', "#e58ed3", "#eaa5dc", "#efbbe4"],
+                    borderColor: ['#cb1ea8', '#d034b0', '#d54ab9', '#da61c2', '#df78ca', "#e58ed3", "#eaa5dc", "#efbbe4"],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
+            }
+        });
     })
 }
 
-function render_total_last_twelve_months(url) {
+function render_summary_last_twelve_months(url) {
     fetch(url, {
         method: 'get'
     }).then(function (result) {
         return result.json()
     }).then(function (data) {
-        const ctx = document.getElementById('last_twelve_months').getContext('2d');
-        const myChart = new Chart(ctx, {
+        const ctx1 = document.getElementById('last_twelve_months').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
             type: 'line',
             data: {
                 labels: data.labels,
                 datasets: [{
                     label: 'Receitas',
-                    data: data.revenues,
+                    data: data.revenue,
                     backgroundColor: "#1EA8CB",
                     borderColor: "#1EA8CB",
                     borderWidth: 2.0
@@ -41,50 +62,84 @@ function render_total_last_twelve_months(url) {
                 }]
             },
         });
+
+        const ctx2 = document.getElementById('annual_category_summary').getContext('2d');
+        const myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: data.categorySummaries.categories,
+                datasets: [{
+                    data: data.categorySummaries.totals,
+                    backgroundColor: ['#cb1ea8', '#d034b0', '#d54ab9', '#da61c2', '#df78ca', "#e58ed3", "#eaa5dc", "#efbbe4"],
+                    borderColor: ['#cb1ea8', '#d034b0', '#d54ab9', '#da61c2', '#df78ca', "#e58ed3", "#eaa5dc", "#efbbe4"],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
+            }
+        });
     })
 }
 
-function render_five_higher_revenues(url){
+function render_five_higher_revenues(url) {
     fetch(url, {
         method: 'get'
-    }).then(function(result){
+    }).then(function (result) {
         return result.json()
-    }).then(function(data){
+    }).then(function (data) {
         const ctx = document.getElementById('higher_revenues').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: data.labels,
                 datasets: [{
-                    label: "Receitas",
                     data: data.data,
                     backgroundColor: ['#1ea8cb', '#34b0d0', '#4ab9d5', '#61c2da', '#78cadf'],
                     borderColor: ['#1ea8cb', '#34b0d0', '#4ab9d5', '#61c2da', '#78cadf'],
                     borderWidth: 1
                 }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
             }
         });
     })
 }
 
-function render_five_higher_expenditures(url){
+function render_five_higher_expenditures(url) {
     fetch(url, {
         method: 'get'
-    }).then(function(result){
+    }).then(function (result) {
         return result.json()
-    }).then(function(data){
+    }).then(function (data) {
         const ctx = document.getElementById('higher_expenditures').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: data.labels,
                 datasets: [{
-                    label: "Despesas",
                     data: data.data,
                     backgroundColor: ['#cb1ea8', '#d034b0', '#d54ab9', '#da61c2', '#df78ca'],
                     borderColor: ['#cb1ea8', '#d034b0', '#d54ab9', '#da61c2', '#df78ca'],
                     borderWidth: 1
                 }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
             }
         });
     })
@@ -109,13 +164,3 @@ function render_current_month_and_year(url) {
         }
     })
 }
-
-// function render_new_revenues_row() {
-//     var revenues_row = document.getElementById("revenues_row")
-//
-//     const lista = [1, 2, 3, 4, 5]
-//
-//     for (index in lista) {
-//         revenues_row.
-//     }
-// }
