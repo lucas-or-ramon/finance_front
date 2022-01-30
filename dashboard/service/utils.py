@@ -1,11 +1,11 @@
 import datetime
+import locale
 
 from finance.service import backend
 
 
-def get_summary_current_month(path):
-    now = datetime.datetime.now()
-    summary = backend.get_total(f'{path}/{now.year}/{now.month}')
+def get_summary_current_month(path, year, month):
+    summary = backend.get_total(f'{path}/{year}/{month}')
     if summary is None:
         return 0
 
@@ -25,8 +25,10 @@ def extract_categories_summary(category_summaries):
     return {"categories": categories, "totals": totals}
 
 
-def get_summary_last_twelve_months(path):
-    summary = backend.get_contents(f'{path}/lastyear')
+def get_summary_last_twelve_months(path, year, month):
+    locale.setlocale(locale.LC_TIME, "pt_BR.utf8")
+
+    summary = backend.get_contents(f'{path}/lastyear/{year}/{month}')
 
     monthly_summaries = sorted(summary["monthlySummaries"],
                                key=lambda x: datetime.datetime.strptime(x["date"], "%Y-%m-%d"))
@@ -35,7 +37,7 @@ def get_summary_last_twelve_months(path):
     total_expenditure = []
 
     for monthly_summary in monthly_summaries:
-        months.append(datetime.datetime.strptime(monthly_summary["date"], "%Y-%m-%d").strftime("%b"))
+        months.append(str.upper(datetime.datetime.strptime(monthly_summary["date"], "%Y-%m-%d").strftime("%b-%Y")))
         total_revenue.append(monthly_summary["totalRevenue"])
         total_expenditure.append(monthly_summary["totalExpenditure"])
 
@@ -45,10 +47,8 @@ def get_summary_last_twelve_months(path):
             "categorySummaries": extract_categories_summary(summary["annualCategoriesSummary"])}
 
 
-def get_five_higher(content_name):
-    now = datetime.datetime.now()
-
-    records = backend.get_contents(f'{content_name}/{now.year}/{now.month}')
+def get_five_higher(content_name, year, month):
+    records = backend.get_contents(f'{content_name}/{year}/{month}')
 
     if records is None:
         return [[], []]
@@ -68,8 +68,9 @@ def get_five_higher(content_name):
 
 
 def get_years_and_month_to_select():
+    locale.setlocale(locale.LC_TIME, "pt_BR.utf8")
     now = datetime.datetime.now()
     years = ["Ano", str(now.year + 1), str(now.year), str(now.year - 1)]
-    months = [str(i) for i in range(1, 13, 1)]
+    months = [str.upper(datetime.datetime(2021, i, 1).strftime("%b")) for i in range(1, 13)]
     months.insert(0, "Mês")
     return [years, months]
