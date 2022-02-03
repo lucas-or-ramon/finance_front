@@ -29,9 +29,9 @@
                         </li>
                         <li><a class="dropdown-item" href="#">Excluir</a></li>
                     </ul>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                    <input type="text" class="form-control description" aria-label="Text input with dropdown button" id="description">
+                    <input type="text" class="form-control value" aria-label="Text input with dropdown button" id="value">
+                    <input type="text" class="form-control date" aria-label="Text input with dropdown button" id="date">
                 </div>
             </div>
 
@@ -61,9 +61,9 @@
         </div>
     </div>
 
-    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src="{% static 'js/finance.js' %}"></script>
 
     <script>
-        onWindowLoading()
+        onWindowLoadingFinance()
     </script>
 {% endblock %}
