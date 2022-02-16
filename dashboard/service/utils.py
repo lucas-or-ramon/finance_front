@@ -1,5 +1,4 @@
 import datetime
-import locale
 
 from finance.service import backend
 
@@ -26,7 +25,6 @@ def extract_categories_summary(category_summaries):
 
 
 def get_summary_last_twelve_months(path, year, month):
-    locale.setlocale(locale.LC_TIME, "pt_BR.utf8")
 
     summary = backend.get_contents(f'{path}/lastyear/{year}/{month}')
 
@@ -68,7 +66,6 @@ def get_five_higher(content_name, year, month):
 
 
 def get_years_and_month_to_select():
-    locale.setlocale(locale.LC_TIME, "pt_BR.utf8")
     now = datetime.datetime.now()
     years = ["Ano", str(now.year + 1), str(now.year), str(now.year - 1)]
     months = [str.upper(datetime.datetime(2021, i, 1).strftime("%b")) for i in range(1, 13)]

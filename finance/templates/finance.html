@@ -18,20 +18,12 @@
                     <label class="input-group-text">Valor</label>
                     <label class="input-group-text">Data</label>
                 </div>
-                <div class="input-group mb-3" id="revenues_row">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">Ação
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Editar</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Excluir</a></li>
-                    </ul>
-                    <input type="text" class="form-control description" aria-label="Text input with dropdown button" id="description">
-                    <input type="text" class="form-control value" aria-label="Text input with dropdown button" id="value">
-                    <input type="text" class="form-control date" aria-label="Text input with dropdown button" id="date">
+                <div id="revenue_spreadsheet"></div>
+                <div class="col-12">
+                    <button class="btn btn-light" type="submit" id="new_revenue_button">Novo</button>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-light" type="submit" id="save_revenue_button" hidden>Salvar</button>
                 </div>
             </div>
 
@@ -41,21 +33,15 @@
                     <label class="input-group-text">Descrição</label>
                     <label class="input-group-text">Valor</label>
                     <label class="input-group-text">Data</label>
+                    <label class="input-group-text">Categoria</label>
                 </div>
-                <div class="input-group mb-3">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">Ação
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Editar</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Excluir</a></li>
-                    </ul>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                <div id="expenditure_spreadsheet"></div>
+                <div id="new_expenditure"></div>
+                <div class="col-12">
+                    <button class="btn btn-light" type="submit" id="new_expenditure_button">Novo</button>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-light" type="submit" id="save_expenditure_button" hidden>Salvar</button>
                 </div>
             </div>
         </div>
