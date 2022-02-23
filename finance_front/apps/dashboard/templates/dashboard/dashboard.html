@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'finance/base.html' %}
 {% load static %}
 
 {% block titulo %}Dashboard{% endblock %}
@@ -54,9 +54,11 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+    <script src="{% static 'finance/js/utils.js' %}"></script>
+
 
     <script>
-        onWindowLoading()
+        onWindowLoadingDashboard()
     </script>
 {% endblock %}

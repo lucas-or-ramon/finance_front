@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', include('dashboard.urls')),
-    path('finance/', include('finance.urls'))
+    path('dashboard/', include('finance_front.apps.dashboard.urls')),
+    path('finance/', include('finance_front.apps.finance.urls'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
