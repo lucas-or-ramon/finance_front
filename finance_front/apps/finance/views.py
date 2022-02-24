@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+
 from . import service
+from ... import service as main_service
 
 EXPENDITURE = "despesas"
 REVENUES = "receitas"
@@ -24,4 +26,4 @@ def monthly_summary(request, year, month):
 
 
 def years_and_month_to_select(request):
-    return JsonResponse(service.get_years_and_month_to_select())
+    return JsonResponse(main_service.get_years_and_month_to_select())

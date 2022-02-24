@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
 from . import service
+from ... import service as main_service
 
 EXPENDITURE = "despesas"
 REVENUES = "receitas"
@@ -20,15 +22,12 @@ def summary_last_twelve_months(request, year, month):
 
 
 def five_higher_expenditures(request, year, month):
-    expenditure = service.get_five_higher(EXPENDITURE, year, month)
-    return JsonResponse({"data": expenditure[0], "labels": expenditure[1]})
+    return JsonResponse(service.get_five_higher(EXPENDITURE, year, month))
 
 
 def five_higher_revenues(request, year, month):
-    revenues = service.get_five_higher(REVENUES, year, month)
-    return JsonResponse({"data": revenues[0], "labels": revenues[1]})
+    return JsonResponse(service.get_five_higher(REVENUES, year, month))
 
 
 def years_and_month_to_select(request):
-    years_months = service.get_years_and_month_to_select()
-    return JsonResponse({"years": years_months[0], "months": years_months[1]})
+    return JsonResponse(main_service.get_years_and_month_to_select())
