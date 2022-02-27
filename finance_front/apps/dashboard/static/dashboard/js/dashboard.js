@@ -1,35 +1,35 @@
 function onWindowLoadingDashboard() {
     window.onload = function (event) {
-        renderMonthAndYearSelect("years_and_month_to_select_url");
+        renderMonthAndYearSelect("years_and_month_to_select");
         functionsToExecuteOnDashboard(new Date())
     }
     captureActionFilterButton();
 }
 
 function functionsToExecuteOnDashboard(date) {
-    renderMonthlySummary("monthly_summary_url/" + date.getFullYear() + "/" + (date.getMonth() + 1));
-    renderFiveHigherRevenues("five_higher_revenues_url/" + date.getFullYear() + "/" + (date.getMonth() + 1));
-    renderFiveHigherExpenditures("five_higher_expenditures_url/" + date.getFullYear() + "/" + (date.getMonth() + 1));
-    renderSummaryLastTwelveMonths("summary_last_twelve_months_url/" + date.getFullYear() + "/" + (date.getMonth() + 1));
+    renderMonthlyResume("monthly_resume/" + date.getFullYear() + "/" + (date.getMonth() + 1));
+    renderFiveHigherRevenues("five_higher_revenues/" + date.getFullYear() + "/" + (date.getMonth() + 1));
+    renderFiveHigherExpenditures("five_higher_expenditures/" + date.getFullYear() + "/" + (date.getMonth() + 1));
+    renderResumeLastTwelveMonths("resume_last_twelve_months/" + date.getFullYear() + "/" + (date.getMonth() + 1));
 }
 
-function renderMonthlySummary(url) {
+function renderMonthlyResume(url) {
     fetch(url, {
         method: 'get'
     }).then(function (result) {
         return result.json()
-    }).then(function (summary) {
-        const {totalRevenue, totalExpenditure, balance, 'categorySummaries': {categories, totals}} = summary;
+    }).then(function (resume) {
+        const {totalRevenue, totalExpenditure, balance, 'categoryResume': {categories, totals}} = resume;
 
-        setTotalsMonthlySummary(totalRevenue, totalExpenditure, balance);
+        setTotalsMonthlyResume(totalRevenue, totalExpenditure, balance);
 
-        let chartStatus = Chart.getChart("monthly_category_summary");
+        let chartStatus = Chart.getChart("monthly_category_resume");
         if (chartStatus !== undefined) {
             chartStatus.destroy();
         }
 
-        const monthlyCategorySummaryElement = document.getElementById('monthly_category_summary').getContext('2d');
-        const monthlyCategorySummaryChart = new Chart(monthlyCategorySummaryElement, {
+        const monthlyCategoryResumeElement = document.getElementById('monthly_category_resume').getContext('2d');
+        const monthlyCategoryResumeChart = new Chart(monthlyCategoryResumeElement, {
             type: 'bar', data: {
                 labels: categories, datasets: [{
                     data: totals,
@@ -48,13 +48,13 @@ function renderMonthlySummary(url) {
     });
 }
 
-function renderSummaryLastTwelveMonths(url) {
+function renderResumeLastTwelveMonths(url) {
     fetch(url, {
         method: 'get'
     }).then(function (result) {
         return result.json()
-    }).then(function (summary) {
-        const {labels, revenue, expenditure, 'categorySummaries': {categories, totals}} = summary;
+    }).then(function (resume) {
+        const {labels, revenue, expenditure, 'categoryResume': {categories, totals}} = resume;
 
         let chartStatus = Chart.getChart("last_twelve_months");
         if (chartStatus !== undefined) {
@@ -80,13 +80,13 @@ function renderSummaryLastTwelveMonths(url) {
             },
         });
 
-        chartStatus = Chart.getChart("annual_category_summary");
+        chartStatus = Chart.getChart("annual_category_resume");
         if (chartStatus !== undefined) {
             chartStatus.destroy();
         }
 
-        const annualCategorySummaryElement = document.getElementById('annual_category_summary').getContext('2d');
-        const annualCategorySummaryChart = new Chart(annualCategorySummaryElement, {
+        const annualCategoryResumeElement = document.getElementById('annual_category_resume').getContext('2d');
+        const annualCategoryResumeChart = new Chart(annualCategoryResumeElement, {
             type: 'bar', data: {
                 labels: categories, datasets: [{
                     data: totals,

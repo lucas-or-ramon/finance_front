@@ -4,21 +4,21 @@ from django.http import JsonResponse
 from . import service
 from ... import service as main_service
 
-EXPENDITURE = "despesas"
-REVENUES = "receitas"
-SUMMARY = "resumo"
+EXPENDITURE = "expenditure"
+REVENUES = "revenue"
+RESUME = "resume"
 
 
 def dashboard(request):
     return render(request, 'dashboard/dashboard.html')
 
 
-def summary_current_month(request, year, month):
-    return JsonResponse(service.get_summary_current_month(SUMMARY, year, month))
+def resume_current_month(request, year, month):
+    return JsonResponse(service.get_resume_current_month(RESUME, year, month))
 
 
-def summary_last_twelve_months(request, year, month):
-    return JsonResponse(service.get_summary_last_twelve_months(SUMMARY, year, month))
+def resume_last_twelve_months(request, year, month):
+    return JsonResponse(service.get_resume_last_twelve_months(RESUME, year, month))
 
 
 def five_higher_expenditures(request, year, month):

@@ -5,45 +5,45 @@ import requests
 env = environ.Env()
 URL_BACKEND = env('URL_BACKEND')
 
-def get_summary_current_month(path, year, month):
-    summary = get_total(f'{path}/{year}/{month}')
-    if summary is None:
+def get_resume_current_month(path, year, month):
+    resume = get_total(f'{path}/monthly/{year}/{month}')
+    if resume is None:
         return 0
 
-    summary["categorySummaries"] = extract_categories_summary(summary["categorySummaries"])
+    resume["categoryResume"] = extract_categories_resume(resume["categoryResumeList"])
 
-    return summary
+    return resume
 
 
-def extract_categories_summary(category_summaries):
-    category_summaries_sorted = sorted(category_summaries, key=lambda x: x["total"], reverse=True)
+def extract_categories_resume(category_resume):
+    category_resume_sorted = sorted(category_resume, key=lambda x: x["total"], reverse=True)
     categories = []
     totals = []
-    for category_summary in category_summaries_sorted:
-        categories.append(category_summary["category"])
-        totals.append(category_summary["total"])
+    for category_resume in category_resume_sorted:
+        categories.append(category_resume["category"])
+        totals.append(category_resume["total"])
 
     return {"categories": categories, "totals": totals}
 
 
-def get_summary_last_twelve_months(path, year, month):
-    summary = get_contents(f'{path}/lastyear/{year}/{month}')
+def get_resume_last_twelve_months(path, year, month):
+    resume = get_contents(f'{path}/annual/{year}/{month}')
 
-    monthly_summaries = sorted(summary["monthlySummaries"],
+    monthly_resume = sorted(resume["monthlyResume"],
                                key=lambda x: datetime.datetime.strptime(x["date"], "%Y-%m-%d"))
     months = []
     total_revenue = []
     total_expenditure = []
 
-    for monthly_summary in monthly_summaries:
-        months.append(str.upper(datetime.datetime.strptime(monthly_summary["date"], "%Y-%m-%d").strftime("%b-%Y")))
-        total_revenue.append(monthly_summary["totalRevenue"])
-        total_expenditure.append(monthly_summary["totalExpenditure"])
+    for monthly_resume in monthly_resume:
+        months.append(str.upper(datetime.datetime.strptime(monthly_resume["date"], "%Y-%m-%d").strftime("%b-%Y")))
+        total_revenue.append(monthly_resume["totalRevenue"])
+        total_expenditure.append(monthly_resume["totalExpenditure"])
 
     return {"labels": months,
             "revenue": total_revenue,
             "expenditure": total_expenditure,
-            "categorySummaries": extract_categories_summary(summary["annualCategoriesSummary"])}
+            "categoryResume": extract_categories_resume(resume["categoryResumeList"])}
 
 
 def get_five_higher(content_name, year, month):
@@ -66,8 +66,16 @@ def get_five_higher(content_name, year, month):
     return {"data": data, "labels": labels}
 
 def get_contents(content_name):
-    return requests.get((URL_BACKEND + content_name)).json()
+    print("URL: " + (URL_BACKEND + content_name))
+    response = requests.get((URL_BACKEND + content_name)).json()
+    print("Response: ")
+    print(response)
+    return response
 
 
 def get_total(content_name):
-    return requests.get((URL_BACKEND + content_name)).json()
+    print("URL: " + (URL_BACKEND + content_name))
+    response = requests.get((URL_BACKEND + content_name)).json()
+    print("Response: ")
+    print(response)
+    return response

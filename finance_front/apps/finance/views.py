@@ -6,7 +6,7 @@ from ... import service as main_service
 
 EXPENDITURE = "despesas"
 REVENUES = "receitas"
-SUMMARY = "resumo"
+RESUME = "resumo"
 
 
 def finance(request):
@@ -21,8 +21,8 @@ def revenues(request, year, month):
     return JsonResponse({"data": service.get_specific_content(REVENUES, year, month)})
 
 
-def monthly_summary(request, year, month):
-    return JsonResponse(service.get_monthly_summary(SUMMARY, year, month))
+def monthly_resume(request, year, month):
+    return JsonResponse(service.get_monthly_resume(RESUME, year, month))
 
 
 def years_and_month_to_select(request):

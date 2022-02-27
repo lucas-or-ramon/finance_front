@@ -1,6 +1,6 @@
 function onWindowLoadingFinance() {
-    window.onload = function (event) {
-        renderMonthAndYearSelect("years_and_month_to_select_url");
+    window.onload = function () {
+        renderMonthAndYearSelect("years_and_month_to_select");
         functionsToExecuteOnFinance(new Date())
     }
     captureActionFilterButton()
@@ -8,18 +8,18 @@ function onWindowLoadingFinance() {
 
 function functionsToExecuteOnFinance(date) {
     console.log(date)
-    renderMonthlySummary("monthly_summary_url/" + date.getFullYear() + "/" + (date.getMonth() + 1));
+    renderMonthlyResume("monthly_resume/" + date.getFullYear() + "/" + (date.getMonth() + 1));
     renderRevenueRecords("revenues/" + date.getFullYear() + "/" + (date.getMonth() + 1))
 }
 
-function renderMonthlySummary(url) {
+function renderMonthlyResume(url) {
     fetch(url, {
         method: 'get'
     }).then(function (result) {
         return result.json()
-    }).then(function (summary) {
-        const {totalRevenue, totalExpenditure, balance} = summary
-        setTotalsMonthlySummary(totalRevenue, totalExpenditure, balance)
+    }).then(function (resume) {
+        const {totalRevenue, totalExpenditure, balance} = resume
+        setTotalsMonthlyResume(totalRevenue, totalExpenditure, balance)
     })
 }
 
@@ -45,7 +45,7 @@ function renderRevenueRecords(url) {
 }
 
 function captureActionFilterButton() {
-    document.getElementById("date_filter").onclick = function (e) {
+    document.getElementById("date_filter").onclick = function () {
         let date = getDateFromMonthAndYearSelect();
         functionsToExecuteOnFinance(date)
     }

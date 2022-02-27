@@ -29,7 +29,7 @@ function getDateFromMonthAndYearSelect() {
     return new Date(year, month - 1);
 }
 
-function setTotalsMonthlySummary(totalRevenue, totalExpenditure, balance) {
+function setTotalsMonthlyResume(totalRevenue, totalExpenditure, balance) {
     document.getElementById('total_revenues').innerHTML = totalRevenue
     document.getElementById('current_balance').innerHTML = balance
     document.getElementById('total_expenditure').innerHTML = totalExpenditure

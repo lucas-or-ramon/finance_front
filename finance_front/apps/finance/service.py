@@ -11,12 +11,12 @@ def get_specific_content(content_name, year, month):
 
     return records
 
-def get_monthly_summary(content_name, year, month):
-    summary = get_total(f'{content_name}/{year}/{month}')
-    if summary is None:
+def get_monthly_resume(content_name, year, month):
+    resume = get_total(f'{content_name}/{year}/{month}')
+    if resume is None:
         return 0
 
-    return summary
+    return resume
 
 def get_contents(content_name):
     return requests.get((URL_BACKEND + content_name)).json()
